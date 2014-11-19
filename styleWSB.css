@@ -11,3 +11,20 @@
 	border: 0px !important;
 	box-shadow: 0px 0px 0px !important;
 }
+
+.reveal .slides {
+  height: 90% !important;
+  width:90% !important;
+  /*top: 0;*/
+  /*margin-top: 0;*/
+}
+
+.biereTable{
+	width:100% !important;
+	height:100% !important;
+}
+.present{
+	margin : 0 auto !important;
+	width:100%;
+	height:100%;
+}

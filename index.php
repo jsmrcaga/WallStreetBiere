@@ -1,3 +1,7 @@
+<? include "php/main.php";
+
+?>
+
 <html>
 <head>
 	<title>Wall Street de la Biere</title>
@@ -25,9 +29,7 @@
 			}
 		</script>
 
-		<style type="text/css">
-			@import url('styleWSB.css');
-		</style>
+	
 </head>
 
 
@@ -37,14 +39,113 @@
 <div id="all">
 	<div class="reveal">
 		<div class="slides">
-				<section>
+				<!-- <section>
 					<h1>Wall Street de la Biere</h1>
+				</section>-->
+				 <section> 
+				 	<table class="biereTable">
+				 		<tr>
+				 			<td>
+				 				<h5>Delirium</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 			<td>
+				 				<h5>Cuvee des Trolls</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+							<td>
+				 				<h5>Karmeliet</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 		</tr>
+
+				 		<tr>
+				 			<td>
+				 				<h5>St Feuillen</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 			<td>
+				 				<h5>Barbar Bok</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+							<td>
+				 				<h5>Barbar</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 		</tr>
+				 	</table>
+					
 				</section>
-				<section>
-					<!-- <h1>Ventes</h1> -->
-					<div class="graph only">
-						<img class="image" src="images/graphExa.png" />
-					</div>
+
+				<section> 
+				 	<table class="biereTable">
+				 		<tr>
+				 			<td>
+				 				<h5>Delirium</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 			<td>
+				 				<h5>Cuvee des Trolls</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+							<td>
+				 				<h5>Karmeliet</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 		</tr>
+
+				 		<tr>
+				 			<td>
+				 				<h5>St Feuillen</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 			<td>
+				 				<h5>Barbar Bok</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+							<td>
+				 				<h5>Barbar</h5>
+								<div class="graph only">
+									<img class="image" src="images/graphExa.png" />
+								</div>
+							</td>
+
+				 		</tr>
+				 	</table>
+					
 				</section>
 
 		</div>
@@ -87,6 +188,9 @@
 
 		</script>
 
+	<style type="text/css">
+			@import url('styleWSB.css');
+		</style>
 
 </body>
 </html>
