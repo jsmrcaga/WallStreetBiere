@@ -24,6 +24,8 @@ body{
 #tableBieres{
 	width:100%;
 	height:100%;
+	border-spacing:0;
+	border-collapse: collapse;
 }
 
 .onlyBeerTable{
@@ -49,21 +51,25 @@ body{
 	text-align: left;
 	padding-left: 40px; 
 	font-size: 40px;
-	width: 57%;
+	width: 50%;
 }
 .oldPrice {
-	width:17%;
+	width:13%;
 	color: rgba(255,255,255,0.5);
 	font-weight: 700;
 	font-size: 40px;
 }
 .newPrice{
-	width:17%;
-	font-weight: 400;
+	width:13%;
+	font-weight: 700;
 	font-size: 40px;
 }
 
-
+.oldyPrice{
+	width:14%;
+	font-weight: 400;
+	font-size: 40px;
+}
 
 .arrow{
 	width:10%;
@@ -73,4 +79,14 @@ body{
 	
 	width:50px;
 	height:50px;
+}
+
+.counter{
+	padding-right: 30px;
+	text-align:right;
+	font-size:100px;
+}
+
+.logoCounter{
+	width:120px;
 }
