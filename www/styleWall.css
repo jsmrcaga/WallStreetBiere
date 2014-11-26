@@ -1,0 +1,92 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700);
+
+body{
+	min-width:100%;
+	text-align:center;
+	margin:0 ;
+	font-family: 'Roboto Slab';
+}
+
+#all{
+	width:100%;
+	height:100%;
+	margin:0 auto;
+	background-color:000223;
+}
+
+#containerTable{
+	width:100%;
+	height:100%;
+	margin:0 auto;
+
+}
+
+#tableBieres{
+	width:100%;
+	height:100%;
+	border-spacing:0;
+	border-collapse: collapse;
+}
+
+.onlyBeerTable{
+	width:100%;
+	height:100%;
+	font-weight: 400;
+	color:#FFF;
+	text-align:center;
+	border-color:#B22132;
+	border:2px;
+}
+.beer{
+	width:50%;
+	border-left: 2px;
+	border-right: 0;
+	border-top:0;
+	border-bottom:0;
+	border-color:#B22132;
+	border-style: solid;
+	/*border-width:2px; */
+}
+.name{
+	text-align: left;
+	padding-left: 40px; 
+	font-size: 40px;
+	width: 50%;
+}
+.oldPrice {
+	width:13%;
+	color: rgba(255,255,255,0.5);
+	font-weight: 700;
+	font-size: 40px;
+}
+.newPrice{
+	width:13%;
+	font-weight: 700;
+	font-size: 40px;
+}
+
+.oldyPrice{
+	width:14%;
+	font-weight: 400;
+	font-size: 40px;
+}
+
+.arrow{
+	width:10%;
+
+}
+.arrowImage{
+	
+	width:50px;
+	height:50px;
+}
+
+.counter{
+	padding-right: 30px;
+	text-align:right;
+	font-size:100px;
+}
+
+.logoCounter{
+	width:120px;
+}
