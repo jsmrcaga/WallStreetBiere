@@ -94,6 +94,7 @@ class WallStreet:
         # setProduct($obj_id = null, $name, $parent, $prix, $stock, $alcool, $image, $fun_id, $tva=0.00, $cotisant=1, $active=1, $return_of=NULL, $meta="[]")
         for indice, beer in enumerate(self.beers):
             old_price = int(beer['price'])
+            beer['old_price'] = old_price
             new_price = (old_price * self.coef_last_period[indice]
                          + old_price * self.coef_by_beer[indice]) / 2
             beer['price'] = str(new_price)
