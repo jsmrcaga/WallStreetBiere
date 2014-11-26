@@ -1,2 +1,3 @@
 git+https://github.com/payutc/payutcli.git
 configparser
+Jinja2

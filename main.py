@@ -9,8 +9,10 @@ import pprint
 import sqlite3
 import time
 
-ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+from jinja2 import Environment, FileSystemLoader
 
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+env = Environment(loader=FileSystemLoader(os.path.join(ROOT_DIR, 'template')))
 
 class WallStreet:
     def __init__(self):
@@ -55,6 +57,11 @@ class WallStreet:
             self.sold_last_period.append(0)
             self.coef_last_period.append(0)
 
+    def render_template(self):
+        template = env.get_template('index.html')
+        with open(os.path.join('www', 'index.html'), 'w') as index:
+            index.write(template.render())
+
     def restore_backup(self):
         for beer in self.backup:
             self.client.call("GESARTICLE", "setProducts", fun_id=2,
@@ -77,6 +84,7 @@ class WallStreet:
             time.sleep(60*3)
             self.synthetize_stats()
             self.set_prices()
+            self.render_template()
             hour = datetime.datetime.now().hour
             minutes = datetime.datetime.now().minute
             if hour >=21 and minutes >= 30:
