@@ -9,6 +9,7 @@ import pprint
 import sqlite3
 import time
 
+from codecs import open
 from jinja2 import Environment, FileSystemLoader
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -59,8 +60,8 @@ class WallStreet:
 
     def render_template(self):
         template = env.get_template('index.html')
-        with open(os.path.join('www', 'index.html'), 'w') as index:
-            index.write(template.render())
+        with open(os.path.join('www', 'index.html'), 'w', encoding='utf-8') as index:
+            index.write(template.render(beers=self.beers))
 
     def restore_backup(self):
         for beer in self.backup:
@@ -136,7 +137,7 @@ class WallStreet:
 
 if __name__ == '__main__':
     w = WallStreet()
-    w.run()
+    # w.run()
     # for beer in w.backup:
     #     pprint.pprint(w.get_stats(beer))
     # pprint.pprint(w.get_products())

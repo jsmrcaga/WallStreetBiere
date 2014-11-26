@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title>Wall Street Biere</title>
+    <meta charset="utf-8"> 
 	<style type="text/css">
 		@import url('styleWall.css');
 	</style>
@@ -22,23 +23,44 @@
 				</td>
 			</tr> -->
             {% for beer in beers %}
-			<tr class="normalBeer">
-				<td class="beer">
-					<table class="onlyBeerTable">
-						<tr>
-                            <td class="name">{{ beer.name }}</td>
+                {% if loop.cycle(1, 2) == 1 %}
+                    <tr class="normalBeer">
+			        	<td class="beer">
+			        		<table class="onlyBeerTable">
+			        			<tr>
+                                    <td class="name">{{ beer.name }}</td>
                             <td class="oldPrice">{{ beer.old_price }}</td>
-                            <td class="newPrice">{{ beer.price }}</td>
-                            {% if beer.old_price < beer.price %}
-                                <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
-                            {% else %}
-                                <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
-                            {% endif %}
-						</tr>
-					</table>
-				</td>
-            </tr>
+                                    <td class="newPrice">{{ beer.price }}</td>
+                                    <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% if beer.old_price < beer.price %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
+                                    {% endif %}
+                                </tr>
+			        		</table>
+                        </td>
+
+                {% else %}
+			        	<td class="beer">
+			        		<table class="onlyBeerTable">
+			        			<tr>
+                                    <td class="name">{{ beer.name }}</td>
+                            <td class="oldPrice">{{ beer.old_price }}</td>
+                                    <td class="newPrice">{{ beer.price }}</td>
+                                    <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% if beer.old_price < beer.price %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
+                                    {% endif %}
+			        			</tr>
+			        		</table>
+                        </td>
+                    </tr>
+                {% endif %}
             {% endfor %}
+            </tr>
 
 		</table>
 	</div>
