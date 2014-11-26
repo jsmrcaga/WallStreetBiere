@@ -6,7 +6,7 @@ import datetime
 import os
 import payutcli
 import pprint
-import sqlite3
+import productManager
 import time
 
 from codecs import open
@@ -14,6 +14,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 env = Environment(loader=FileSystemLoader(os.path.join(ROOT_DIR, 'template')))
+
 
 class WallStreet:
     def __init__(self):
@@ -24,19 +25,12 @@ class WallStreet:
         ])
         self.client = payutcli.Client(**dict(self.config.items('client')))
         self.auth()
-        self.backup = self.get_products()
+        self.pm = productManager.ProductManager(self.client)
+        self.backup = self.pm.get_products()
 
     def auth(self):
         self.client.call("ADMINRIGHT", "loginApp", key=self.config.get("rights", "key"))
         self.client.call("POSS3", "loginBadge", badge_id=self.config.get("rights", "badge_id"), pin=self.config.get("rights", "pin"))
-
-    def get_products(self):
-        products = self.client.call("GESARTICLE", "getProducts", fun_id=2)
-        beers = []
-        for product in products:
-            if product['alcool'] and product['active']:
-                beers.append(product)
-        return beers
 
     def get_stats(self, obj_id):
         today = datetime.date.today()
@@ -45,7 +39,6 @@ class WallStreet:
         return stats
 
     def init_cycle(self):
-        self.beers = self.get_products()
         self.sold_by_beer = []
         self.coef_by_beer = []
         self.total_beer = 0
@@ -58,6 +51,17 @@ class WallStreet:
             self.sold_last_period.append(0)
             self.coef_last_period.append(0)
 
+    def init_data(self):
+        beers = self.pm.get_products()
+        for beer in beers:
+            print beer['name']
+            self.pm.set_meta(beer['id'], 'nb_sold', 0)
+            self.pm.set_meta(beer['id'], 'sold_last_period', 0)
+            self.pm.set_meta(beer['id'], 'initial_price', beer['price'])
+            self.pm.set_meta(beer['id'], 'money_made', 0)
+            self.pm.set_meta(beer['id'], 'date_last_period', time.time())
+            self.pm.set_meta(beer['id'], 'price_last_period', 0)
+
     def render_template(self):
         template = env.get_template('index.html')
         with open(os.path.join('www', 'index.html'), 'w', encoding='utf-8') as index:
@@ -68,7 +72,7 @@ class WallStreet:
             self.client.call("GESARTICLE", "setProducts", fun_id=2,
                              obj_id=beer['id'],
                              name=beer['name'],
-                             parent=beer['category_id'],
+                             parent=beer['categorie_id'],
                              prix=beer['price'],
                              stock=beer['stock'],
                              alcool=beer['alcool'],
@@ -80,6 +84,7 @@ class WallStreet:
 
 
     def run(self):
+        self.init_data()
         self.init_cycle()
         while True:
             time.sleep(60*3)
@@ -99,18 +104,7 @@ class WallStreet:
             new_price = (old_price * self.coef_last_period[indice]
                          + old_price * self.coef_by_beer[indice]) / 2
             beer['price'] = str(new_price)
-            self.client.call("GESARTICLE", "setProducts", fun_id=2,
-                             obj_id=beer['id'],
-                             name=beer['name'],
-                             parent=beer['category_id'],
-                             prix=beer['price'],
-                             stock=beer['stock'],
-                             alcool=beer['alcool'],
-                             image=beer['image'],
-                             tva=beer['tva'],
-                             cotisant=beer['cotisant'],
-                             active=beer['active'],
-                             return_of=beer['return_of'])
+            pm.save_product(beer)
 
     def synthetize_stats(self):
         # get slices of the sells by time
@@ -136,7 +130,9 @@ class WallStreet:
 
 
 if __name__ == '__main__':
+    import IPython
     w = WallStreet()
+    IPython.embed()
     # w.run()
     # for beer in w.backup:
     #     pprint.pprint(w.get_stats(beer))

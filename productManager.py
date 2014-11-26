@@ -10,21 +10,21 @@ import pprint
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 
-class Backup:
-    def __init__(self):
+class ProductManager:
+    def __init__(self, payutc_client):
         self.config = configparser.ConfigParser()
         self.config.read([
             os.path.join(ROOT_DIR, 'defaults.ini'),
             os.path.join(ROOT_DIR, 'local_settings.ini'),
         ])
-        self.client = payutcli.Client(**dict(self.config.items('client')))
-        self.auth()
+        self.client = payutc_client
         self.beers = self.get_products()
 
-    def auth(self):
-        """connect to payutc server"""
-        self.client.call("ADMINRIGHT", "loginApp", key=self.config.get("rights", "key"))
-        self.client.call("POSS3", "loginBadge", badge_id=self.config.get("rights", "badge_id"), pin=self.config.get("rights", "pin"))
+    def get_meta(self, id, key):
+        """return the value of the given key in the meta of a product"""
+        product = self.get_product(id)
+        value = product['meta']
+        return value[key]
 
     def get_products(self):
         """save in self.beers all the beers"""
@@ -43,9 +43,10 @@ class Backup:
         except:
             print("Impossible to retrieve this article")
 
-    def restore_backup(self):
+    def restore_backup(self, beers=None):
         """save all beers after modifying it"""
-        for beer in self.beers():
+        beers = (beers if beers else self.beers)
+        for beer in beers:
             self.save_product(beer)
 
     def save_product(self, product):
@@ -57,9 +58,11 @@ class Backup:
                          prix=product['price'],
                          stock=product['stock'],
                          alcool=product['alcool'],
-                         image=product['image'],
+                         image=(product['image'] if product['image'] != None else "None"),
                          tva=product['tva'],
                          cotisant=product['cotisant'],
+                         active=product['active'],
+                         return_of=product['return_of'],
                          meta=product['meta'])
 
     def set_meta(self, id, key, value):
@@ -72,5 +75,5 @@ class Backup:
 
 if __name__ == "__main__":
     import IPython
-    b = Backup()
+    b = ProductManager()
     IPython.embed()
