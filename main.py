@@ -37,7 +37,7 @@ class WallStreet:
     def get_stats(self, obj_id):
         today = datetime.date.today()
         today = "%d-%d-%d" % (today.year, today.month, today.day - 1)
-        stats = self.client.call("STATS", "getNbSell", fun_id=2, obj_id=1402, start=today, tick=60*3)
+        stats = self.client.call("STATS", "getNbSell", fun_id=2, obj_id=obj_id, start=today, tick=60*3)
         return stats
 
     def init_cycle(self):
