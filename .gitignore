@@ -1,3 +1,4 @@
 env/
+www/index.html
 local_settings.ini
 *.pyc
