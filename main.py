@@ -7,6 +7,7 @@ import os
 import payutcli
 import pprint
 import sqlite3
+import time
 
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -72,10 +73,14 @@ class WallStreet:
 
     def run(self):
         self.init_cycle()
-        self.synthetize_stats()
-        self.set_prices()
-        import pdb;pdb.set_trace()
-        self.restore_backup()
+        while True:
+            time.sleep(60*3)
+            self.synthetize_stats()
+            self.set_prices()
+            hour = datetime.datetime.now().hour
+            minutes = datetime.datetime.now().minute
+            if hour >=21 and minutes >= 30:
+                    self.restore_backup()
 
     def set_prices(self):
         # setProduct($obj_id = null, $name, $parent, $prix, $stock, $alcool, $image, $fun_id, $tva=0.00, $cotisant=1, $active=1, $return_of=NULL, $meta="[]")
