@@ -47,6 +47,7 @@ class ProductManager:
         """save all beers after modifying it"""
         beers = (beers if beers else self.beers)
         for beer in beers:
+            beer['price'] = beer['meta']['initial_price']
             self.save_product(beer)
 
     def save_product(self, product):
@@ -90,7 +91,7 @@ class ProductManager:
                                  return_of=product['return_of'],
                                  meta=json.dumps(meta))
             except:
-                import pdb;pdb.set_trace()
+                pass
 
     def set_meta(self, id, key, value):
         """save in the meta of the product with id the key-value pair,

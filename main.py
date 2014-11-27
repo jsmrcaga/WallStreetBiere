@@ -77,17 +77,21 @@ class WallStreet:
 
     def run(self):
         self.init_data()
-        while True:
-            self.init_cycle()
-            self.beers = self.pm.get_products()
-            time.sleep(60*3)
-            self.synthetize_stats()
-            self.set_prices()
-            self.render_template()
-            hour = datetime.datetime.now().hour
-            minutes = datetime.datetime.now().minute
-            if hour >=21 and minutes >= 35:
-                    self.pm.restore_backup(self.backup)
+        try:
+            while True:
+                self.init_cycle()
+                time.sleep(60*3)
+                self.auth()
+                self.beers = self.pm.get_products()
+                self.synthetize_stats()
+                self.set_prices()
+                self.render_template()
+                hour = datetime.datetime.now().hour
+                minutes = datetime.datetime.now().minute
+                if hour >=21 and minutes >= 35:
+                        self.pm.restore_backup(self.backup)
+        except KeyboardInterrupt:
+            self.pm.restore_backup(self.backup)
 
     def set_prices(self):
         # setProduct($obj_id = null, $name, $parent, $prix, $stock, $alcool, $image, $fun_id, $tva=0.00, $cotisant=1, $active=1, $return_of=NULL, $meta="[]")
@@ -111,7 +115,6 @@ class WallStreet:
     def synthetize_stats(self):
         # get slices of the sells by time
         for indice, beer in enumerate(self.beers):
-            print beer['name']
             # get number of beers sold on last period
             try:
                 last_date = float(beer['meta']['date_last_period'])
@@ -155,12 +158,14 @@ class WallStreet:
 if __name__ == '__main__':
     import IPython
     w = WallStreet()
-    w.beers = w.pm.get_products()
     #w.init_data()
-    w.init_cycle()
-    w.synthetize_stats()
+    #w.init_cycle()
+    #w.beers = w.pm.get_products()
+    #w.synthetize_stats()
+    #w.set_prices()
+    #w.render_template()
+    w.run()
     IPython.embed()
-    # w.run()
     # for beer in w.backup:
     #     pprint.pprint(w.get_stats(beer))
     # pprint.pprint(w.get_products())
