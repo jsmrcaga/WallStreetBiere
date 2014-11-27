@@ -22,21 +22,20 @@
 					</table>
 				</td>
 			</tr> -->
-            {% for beer in beers %}
+            {% for beer in beers | sort(attribute='name') %}
                 {% if loop.cycle(1, 2) == 1 %}
                     <tr class="normalBeer">
 			        	<td class="beer">
 			        		<table class="onlyBeerTable">
 			        			<tr>
                                     <td class="name">{{ beer.name }}</td>
-                            <td class="oldPrice">{{ beer.old_price }}</td>
-                                    <td class="newPrice">{{ beer.price }}</td>
-                                    <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
-                                    {% if beer.old_price < beer.price %}
-                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
-                                    {% else %}
+                                    {% if beer.old_price > beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
                                     {% endif %}
+                                    <td class="newPrice">{{ beer.price | FormatDecimal }}</td>
+                                    <td class="oldPrice">{{ beer.old_price | FormatDecimal }}</td>
                                 </tr>
 			        		</table>
                         </td>
@@ -46,14 +45,13 @@
 			        		<table class="onlyBeerTable">
 			        			<tr>
                                     <td class="name">{{ beer.name }}</td>
-                            <td class="oldPrice">{{ beer.old_price }}</td>
-                                    <td class="newPrice">{{ beer.price }}</td>
-                                    <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
-                                    {% if beer.old_price < beer.price %}
-                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
-                                    {% else %}
+                                    {% if beer.old_price > beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
                                     {% endif %}
+                                    <td class="newPrice">{{ beer.price | FormatDecimal }}</td>
+                                    <td class="oldPrice">{{ beer.old_price | FormatDecimal }}</td>
 			        			</tr>
 			        		</table>
                         </td>

@@ -31,7 +31,7 @@ class ProductManager:
         products = self.client.call("GESARTICLE", "getProducts", fun_id=2)
         beers = []
         for product in products:
-            if product['alcool'] and product['active']:
+            if product['alcool'] and product['active'] and product['name'] != "Westmalle Triple":
                 beers.append(product)
         return beers
 
@@ -51,19 +51,46 @@ class ProductManager:
 
     def save_product(self, product):
         """save a product given in parameters"""
-        self.client.call("GESARTICLE", "setProduct", fun_id=2,
-                         obj_id=product['id'],
-                         name=product['name'],
-                         parent=product['categorie_id'],
-                         prix=product['price'],
-                         stock=product['stock'],
-                         alcool=product['alcool'],
-                         image=(product['image'] if product['image'] != None else "None"),
-                         tva=product['tva'],
-                         cotisant=product['cotisant'],
-                         active=product['active'],
-                         return_of=product['return_of'],
-                         meta=product['meta'])
+        meta = product['meta']
+        try:
+            meta['total_sold'] = product['total_sold']
+            meta['sold_last_period'] = product['sold_last_period']
+            meta['money_made'] = product['money_made']
+            meta['date_last_period'] = product['date_last_period']
+            meta['price_last_period'] = product['old_price']
+        except KeyError:
+            pass
+        try:
+            self.client.call("GESARTICLE", "setProduct", fun_id=2,
+                             obj_id=product['id'],
+                             name=product['name'],
+                             parent=product['categorie_id'],
+                             prix=product['price'],
+                             stock=product['stock'],
+                             alcool=product['alcool'],
+                             image=(product['image'] if product['image'] != None else "None"),
+                             tva=product['tva'],
+                             cotisant=product['cotisant'],
+                             active=product['active'],
+                             return_of=product['return_of'],
+                             meta=meta)
+        except:
+            try:
+                self.client.call("GESARTICLE", "setProduct", fun_id=2,
+                                 obj_id=product['id'],
+                                 name=product['name'],
+                                 parent=product['categorie_id'],
+                                 prix=product['price'],
+                                 stock=product['stock'],
+                                 alcool=product['alcool'],
+                                 image=(product['image'] if product['image'] != None else "None"),
+                                 tva=product['tva'],
+                                 cotisant=product['cotisant'],
+                                 active=product['active'],
+                                 return_of=product['return_of'],
+                                 meta=json.dumps(meta))
+            except:
+                import pdb;pdb.set_trace()
 
     def set_meta(self, id, key, value):
         """save in the meta of the product with id the key-value pair,
