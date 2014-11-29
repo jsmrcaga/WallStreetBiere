@@ -59,6 +59,9 @@ class ProductManager:
             meta['money_made'] = product['money_made']
             meta['date_last_period'] = product['date_last_period']
             meta['price_last_period'] = product['old_price']
+            product['meta'] = meta
+            for key, value in product['meta']:
+                product['meta']['key'] = str(value)
         except KeyError:
             pass
         try:
@@ -69,35 +72,23 @@ class ProductManager:
                              prix=product['price'],
                              stock=product['stock'],
                              alcool=product['alcool'],
-                             image=(product['image'] if product['image'] != None else "None"),
+                             image=(product['image'] if product['image'] != None else "0"),
                              tva=product['tva'],
                              cotisant=product['cotisant'],
                              active=product['active'],
                              return_of=product['return_of'],
-                             meta=meta)
+                             meta=json.dumps(meta))
         except:
-            try:
-                self.client.call("GESARTICLE", "setProduct", fun_id=2,
-                                 obj_id=product['id'],
-                                 name=product['name'],
-                                 parent=product['categorie_id'],
-                                 prix=product['price'],
-                                 stock=product['stock'],
-                                 alcool=product['alcool'],
-                                 image=(product['image'] if product['image'] != None else "None"),
-                                 tva=product['tva'],
-                                 cotisant=product['cotisant'],
-                                 active=product['active'],
-                                 return_of=product['return_of'],
-                                 meta=json.dumps(meta))
-            except:
-                pass
+            print "*** ALERT ALERT ALERT ***"
+            import pdb;pdb.set_trace()
 
     def set_meta(self, id, key, value):
         """save in the meta of the product with id the key-value pair,
         or update it if it already exists"""
         product  = self.get_product(id)
-        product['meta'] = json.dumps({key: value})
+        meta = product['meta']
+        meta[key] = value
+        product['meta'] = meta
         self.save_product(product)
 
 
