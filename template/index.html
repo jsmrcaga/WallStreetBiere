@@ -4,7 +4,7 @@
     <meta charset="utf-8"> 
 	<style type="text/css">
 		@import url('styleWall.css');
-	</style>
+    </style>
 </head>
 <body>
 <div id="all">
@@ -31,8 +31,10 @@
                                     <td class="name">{{ beer.name }}</td>
                                     {% if beer.old_price > beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
-                                    {% else %}
+                                    {% elif beer.old_price < beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowEqual.png"/></td>
                                     {% endif %}
                                     <td class="newPrice">{{ beer.price | FormatDecimal }}</td>
                                     <td class="oldPrice">{{ beer.old_price | FormatDecimal }}</td>
@@ -47,8 +49,10 @@
                                     <td class="name">{{ beer.name }}</td>
                                     {% if beer.old_price > beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowDown.png"/></td>
-                                    {% else %}
+                                    {% elif beer.old_price < beer.price %}
                                         <td class="arrow"><img class="arrowImage" src="media/arrowUp.png"/></td>
+                                    {% else %}
+                                        <td class="arrow"><img class="arrowImage" src="media/arrowEqual.png"/></td>
                                     {% endif %}
                                     <td class="newPrice">{{ beer.price | FormatDecimal }}</td>
                                     <td class="oldPrice">{{ beer.old_price | FormatDecimal }}</td>
@@ -63,5 +67,16 @@
 		</table>
 	</div>
 </div>
+    <script type="text/javascript">
+        function launchInterval (seconds) {
+            console.log("called");
+            setInterval(function(){
+                console.log("Reload NOW;");
+                location.reload(true);
+            },seconds*1000);
+        }
+
+        launchInterval(60);
+	</script>
 </body>
 </html>
