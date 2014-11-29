@@ -1,4 +1,9 @@
+.gitignore
 env/
 www/index.html
 local_settings.ini
 *.pyc
+pictures/
+memories/
+backup.txt
+duvel.back
