@@ -96,7 +96,9 @@ class WallStreet:
             i['price'] = float(i['price']) / 100.
             i['old_price'] = float(i['old_price']) / 100.
         template = env.get_template('index.html')
-        with open(os.path.join('/', 'var', 'www', 'html', 'index.html'), 'w', encoding='utf-8') as index:
+        with open(os.path.join(self.config.get("app", "html_folder"),
+                               self.config.get("app", "rendered_page"),
+                               'w', encoding='utf-8')) as index:
             index.write(template.render(beers=self.beers))
 
     def run(self):
@@ -109,10 +111,11 @@ class WallStreet:
                 self.synthetize_stats()
                 self.set_prices()
                 self.render_template()
-                time.sleep(90)
+                time.sleep(self.config.get("app", "cycle_time"))
                 hour = datetime.datetime.now().hour
                 minutes = datetime.datetime.now().minute
-                if hour >=21 and minutes >= 35:
+                if hour >= int(self.config.get("app", "closing_hour")) and \
+                        minutes >= int(self.config.get("app", "closing_minutes")):
                         self.pm.restore_backup(self.backup)
         except KeyboardInterrupt:
             self.pm.restore_backup(self.backup)
@@ -124,10 +127,12 @@ class WallStreet:
             new_price = int((old_price * self.coef_last_period[indice]
                          + old_price * self.coef_by_beer[indice]) / 2)
             # minimum and maximum price
-            if new_price <= 110:
-                new_price = 110
-            if new_price >= 450:
-                new_price = 450
+            min_price = int(self.config.get("app", "min_price"))
+            max_price = int(self.config.get("app", "max_price"))
+            if new_price <= min_price:
+                new_price = min_price
+            if new_price >= max_price:
+                new_price = max_price
             beer['price'] = str(int(new_price))
             self.pm.save_product(beer)
 
